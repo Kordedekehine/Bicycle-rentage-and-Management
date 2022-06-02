@@ -15,7 +15,7 @@ public class Bicycle {
 
     @Id
     @NotBlank(message = "Reg Number cannot be empty")
-    private String registrationNumber;
+    private Integer registrationNumber;
 
     @NotNull(message = "Registration year cannot be empty")
     @Range(min = 2017, max = 2050)
@@ -31,13 +31,14 @@ public class Bicycle {
     private String producers;
 
     @NotBlank(message = "Park cannot be empty")
-    private String park;
+    @ManyToOne
+    private Park park;
 
     public Bicycle() {
     }
 
-    public Bicycle(String registrationNumber, Integer registrationYear,
-                   Integer productionYear, String model, String producers, String park) {
+    public Bicycle(Integer registrationNumber, Integer registrationYear,
+                   Integer productionYear, String model, String producers, Park park) {
         this.registrationNumber = registrationNumber;
         this.registrationYear = registrationYear;
         this.productionYear = productionYear;
@@ -46,11 +47,11 @@ public class Bicycle {
         this.park = park;
     }
 
-    public String getRegistrationNumber() {
+    public Integer getRegistrationNumber() {
         return registrationNumber;
     }
 
-    public void setRegistrationNumber(String registrationNumber) {
+    public void setRegistrationNumber(Integer registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
@@ -86,11 +87,11 @@ public class Bicycle {
         this.producers = producers;
     }
 
-    public String getPark() {
+    public Park getPark() {
         return park;
     }
 
-    public void setPark(String park) {
+    public void setPark(Park park) {
         this.park = park;
     }
 
