@@ -21,4 +21,13 @@ public class RentageService {
         return rentageRepository.findByBicycle(bicycle);
     }
 
+    public void addRentDetails(Rentage rentage){
+         rentage.setId(null);
+         rentage.setKilometre(null);
+         rentage.setReturnDate(null);
+         rentage.setReturnPark(null);
+         rentage.getBicycle().setPark(null);
+
+
+    }
 }

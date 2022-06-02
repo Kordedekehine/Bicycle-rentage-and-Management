@@ -30,12 +30,12 @@ public class BicycleService {
         return bicycleRepository.findByPark(park);
     }
 
-    public List<Bicycle> findByService(String producer) {
+    public List<Bicycle> findByProducer(String producer) {
         return bicycleRepository.findByProducer(producer);
     }
 
 
-    public Bicycle bicycle(Bicycle bicycle) {
+    public Bicycle addBicycle(Bicycle bicycle) {
         if (bicycle.getPark() == null) {
             throw new IllegalStateException("bicycle is not null");
         }
