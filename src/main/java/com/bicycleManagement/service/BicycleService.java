@@ -43,7 +43,7 @@ public class BicycleService {
             throw new EntityNotFoundException(messages.get("Park not found"));
         }
        if (bicycleRepository.existsById(bicycle.getRegistrationNumber())){
-           throw new EntityExistsException(messages.get("Car Already Exists"));
+           throw new EntityExistsException(messages.get("Bicycle Already Exists"));
        }
        return bicycleRepository.save(bicycle);
     }

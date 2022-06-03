@@ -20,7 +20,7 @@ public class Customer {
     @NotNull(message = "Name cannot be empty")
     private String lastName;
 
-    @Size(min = 1, max = 255, message = "{nameRange}")
+    @Size(min = 1, max = 255)
     @NotNull(message = "Name cannot be empty")
     private String firstName;
 
