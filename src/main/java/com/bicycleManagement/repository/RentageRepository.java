@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RentageRepository extends JpaRepository<Bicycle,Integer> {
+public interface RentageRepository extends JpaRepository<Rentage,Integer> {
 
      @Query("SELECT r FROM Rentage r WHERE r.kilometre IS NULL AND r.returnDate IS NULL AND r.returnPark IS NULL")
      List<Rentage> findRunningRentage();
