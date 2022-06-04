@@ -24,13 +24,20 @@ public class Customer {
     @NotNull(message = "Name cannot be empty")
     private String firstName;
 
+    private String password;
+
+    private String username;
+
+
     public Customer() {
     }
 
-    public Customer(Integer customerNumber, String lastName, String firstName) {
+    public Customer(Integer customerNumber, String lastName, String firstName, String password, String username) {
         this.customerNumber = customerNumber;
         this.lastName = lastName;
         this.firstName = firstName;
+        this.password = password;
+        this.username = username;
     }
 
     public Integer getCustomerNumber() {
@@ -45,6 +52,22 @@ public class Customer {
         return lastName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -55,6 +78,17 @@ public class Customer {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerNumber=" + customerNumber +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 
     @Override
