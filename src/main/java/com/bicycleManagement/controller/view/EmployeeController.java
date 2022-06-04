@@ -117,6 +117,6 @@ public class EmployeeController {
       return new ModelAndView("frontend/finish-rentage")
               .addObject("parks",parkService.findAll())
               .addObject("finishRentageBean", RentageFinishBean.fromRentage(optional.get()));
-
+      //convert rentage to class in rentagefinishbean class
   }
 }

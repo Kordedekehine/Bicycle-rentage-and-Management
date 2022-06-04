@@ -9,10 +9,6 @@ public class SelectedParkBean {
     @NotNull
     private Park park;
 
-    public SelectedParkBean(Park park) {
-        this.park = park;
-    }
-
     public Park getPark() {
         return park;
     }
