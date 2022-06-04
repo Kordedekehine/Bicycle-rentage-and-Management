@@ -15,6 +15,9 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private CustomSuccessHandler successHandler;
+
+    @Autowired
     private DataSource dataSource;
 
     @Bean
