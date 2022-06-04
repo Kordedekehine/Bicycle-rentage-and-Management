@@ -29,7 +29,7 @@ public class Rentage {
 
     @ManyToOne
     @NotNull
-    private Customer driver;
+    private Customer rider;
 
     @ManyToOne
     @NotNull
@@ -45,12 +45,12 @@ public class Rentage {
 
 
     public Rentage(Integer id, LocalDate rentalDate, LocalDate returnDate, Integer kilometre,
-                   Customer driver, Bicycle bicycle, Park rentalPark, Park returnPark) {
+                   Customer rider, Bicycle bicycle, Park rentalPark, Park returnPark) {
         this.id = id;
         this.rentalDate = rentalDate;
         this.returnDate = returnDate;
         this.kilometre = kilometre;
-        this.driver = driver;
+        this.rider = rider;
         this.bicycle = bicycle;
         this.rentalPark = rentalPark;
         this.returnPark = returnPark;
@@ -88,12 +88,12 @@ public class Rentage {
         this.kilometre = kilometre;
     }
 
-    public Customer getDriver() {
-        return driver;
+    public Customer getRider() {
+        return rider;
     }
 
-    public void setDriver(Customer driver) {
-        this.driver = driver;
+    public void setRider(Customer driver) {
+        this.rider = driver;
     }
 
     public Bicycle getBicycle() {
@@ -130,6 +130,6 @@ public class Rentage {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, rentalDate, returnDate, kilometre, driver, bicycle, rentalPark, returnPark);
+        return Objects.hash(id, rentalDate, returnDate, kilometre, rider, bicycle, rentalPark, returnPark);
     }
 }

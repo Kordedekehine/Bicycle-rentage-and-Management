@@ -3,6 +3,7 @@ package com.bicycleManagement.bean;
 import com.bicycleManagement.model.Bicycle;
 import com.bicycleManagement.model.Customer;
 import com.bicycleManagement.model.Park;
+import com.bicycleManagement.model.Rentage;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,6 +30,31 @@ public class RentageFinishBean {
     private Integer kilometre;
 
     public RentageFinishBean() {
+    }
+
+    public RentageFinishBean(Integer id, LocalDate rentalDate, Customer rider, Bicycle bicycle,
+                             Park rentalPark, LocalDate returnDate, Park returnPark, Integer kilometre) {
+        this.id = id;
+        this.rentalDate = rentalDate;
+        this.rider = rider;
+        this.bicycle = bicycle;
+        this.rentalPark = rentalPark;
+        this.returnDate = returnDate;
+        this.returnPark = returnPark;
+        this.kilometre = kilometre;
+    }
+
+    public static RentageFinishBean fromRentage(Rentage rentage) {
+        return new RentageFinishBean(
+                rentage.getId(),
+                rentage.getRentalDate(),
+                rentage.getRider(),
+                rentage.getBicycle(),
+                rentage.getRentalPark(),
+                LocalDate.now(),
+                null,
+                0
+        );
     }
 
     public Integer getId() {
