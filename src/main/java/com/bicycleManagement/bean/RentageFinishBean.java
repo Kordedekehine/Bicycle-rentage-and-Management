@@ -29,6 +29,7 @@ public class RentageFinishBean {
     @Range(min = 0,max = 100_000_000)
     private Integer kilometre;
 
+
     public RentageFinishBean() {
     }
 
@@ -43,6 +44,9 @@ public class RentageFinishBean {
         this.returnPark = returnPark;
         this.kilometre = kilometre;
     }
+
+//    rental The rental to be turned into a FinishRentalBean
+//      return converted rental as FinishRentalBean
 
     public static RentageFinishBean fromRentage(Rentage rentage) {
         return new RentageFinishBean(
