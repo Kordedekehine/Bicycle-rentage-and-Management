@@ -43,7 +43,7 @@ public class EmployeeController {
     @Autowired
     private RentageService rentageService;
 
-    @PostMapping("add-re")
+    @PostMapping("add-rentage")
      public String showAddRentageForm(Model model, @ModelAttribute("rentage")Rentage rentage){
          List<Park> parks = parkService.findAll();
          List<Bicycle> bicycles;
