@@ -3,12 +3,12 @@
     <p class="lead">Issue new rentals for specific customers</p>
     <hr>
 
-    <div th:switch="${#lists.size(stations)}">
+    <div th:switch="${#lists.size(parks)}">
         <p th:case="0">There are no stations.</p>
-        <form action="/employee/create-rental/process" method="post" th:case="*" th:object="${rental}">
+        <form action="/employee/create-rental/process" method="post" th:case="*" th:object="${rentage}">
 
             <div class="form-group row">
-                <label class="col-sm-2" for="rentalStation">Rental station</label>
+                <label class="col-sm-2" for="rentalStation">Rentage station</label>
                 <div class="col-sm-10">
                     <select class="form-control form-control-sm" id="rentalStation"
                             onchange="this.form.action='/employee/create-rental/refresh'; this.form.submit()"
@@ -21,21 +21,21 @@
                 </div>
             </div>
 
-            <div th:switch="${#lists.size(cars)}">
+            <div th:switch="${#lists.size(bicycles)}">
                 <p class="text-center info" th:case="0">0 cars found.<br>There are no cars in this station.</p>
                 <div th:case="*">
 
                     <div class="form-group row">
-                        <label class="col-sm-2" for="car">Car</label>
+                        <label class="col-sm-2" for="bicycle">Car</label>
                         <div class="col-sm-10">
-                            <select class="form-control form-control-sm" id="car" th:field="*{car}">
-                                <option th:each="car : ${cars}"
-                                        th:text="${car}"
-                                        th:value="${car.registrationNr}">
+                            <select class="form-control form-control-sm" id="bicycle" th:field="*{bicycle}">
+                                <option th:each="bicycle : ${bicycles}"
+                                        th:text="${bicycle}"
+                                        th:value="${bicycle.registrationNumber}">
                                 </option>
                             </select>
-                            <small class="text-danger" th:errors="*{car}"
-                                   th:if="${#fields.hasErrors('car')}"></small>
+                            <small class="text-danger" th:errors="*{bicycle}"
+                                   th:if="${#fields.hasErrors('bicycle')}"></small>
                             <small class="text-danger" th:text="${carMismatchError}"></small>
                         </div>
                     </div>
