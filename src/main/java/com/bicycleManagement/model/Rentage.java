@@ -43,6 +43,8 @@ public class Rentage {
     @NotNull
     private Park returnPark;
 
+    public Rentage() {
+    }
 
     public Rentage(Integer id, LocalDate rentalDate, LocalDate returnDate, Integer kilometre,
                    Customer rider, Bicycle bicycle, Park rentalPark, Park returnPark) {

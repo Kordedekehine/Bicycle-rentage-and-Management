@@ -30,8 +30,12 @@ public class BicycleService {
         return bicycleRepository.findByPark(park);
     }
 
-    public List<Bicycle> findByProducer(String producer) {
-        return bicycleRepository.findByProducer(producer);
+    public List<Bicycle> findByMileageGreaterThan(Integer mileage) {
+        return bicycleRepository.findByMileageGreaterThan(mileage);
+    }
+
+    public List<Bicycle> findByProducers(String producer) {
+        return bicycleRepository.findByProducers(producer);
     }
 
 

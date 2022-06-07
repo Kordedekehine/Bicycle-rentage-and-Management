@@ -12,7 +12,9 @@ public interface BicycleRepository extends JpaRepository<Bicycle,Integer> {
 
     List<Bicycle> findByPark(Park park);
 
-    List<Bicycle> findByProducer(String producer);
+    List<Bicycle> findByProducers(String producer);
+
+    List<Bicycle> findByMileageGreaterThan(Integer mileage);
 
 
 }

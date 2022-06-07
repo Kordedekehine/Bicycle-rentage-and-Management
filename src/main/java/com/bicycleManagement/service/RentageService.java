@@ -39,6 +39,7 @@ public class RentageService {
         rentage.setReturnPark(rentageFinishBean.getReturnPark());//get the time it returns to pack
         rentage.setKilometre(rentageFinishBean.getKilometre());
         rentage.getBicycle().setPark(rentage.getReturnPark());
+        rentage.getBicycle().setMileage(rentage.getBicycle().getMileage() + rentage.getKilometre());
 
         rentageRepository.save(rentage);
     }

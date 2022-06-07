@@ -43,7 +43,7 @@ public class EmployeeController {
     @Autowired
     private RentageService rentageService;
 
-    @PostMapping("add-rentage")
+    @PostMapping("/add-rentage")
      public String showAddRentageForm(Model model, @ModelAttribute("rentage")Rentage rentage){
          List<Park> parks = parkService.findAll();
          List<Bicycle> bicycles;
@@ -64,7 +64,7 @@ public class EmployeeController {
          return "frontends/add-rentage"; //"fragments/create-rental" //THE FILE
      }
 
-     @PostMapping("add-rentage")
+     @PostMapping("add-rentage/refresh")
     public String refreshAddRentageForm(@ModelAttribute ("rentage") Rentage rentage,
                                        RedirectAttributes redirectAttributes){
        redirectAttributes.addFlashAttribute("rentage",rentage);

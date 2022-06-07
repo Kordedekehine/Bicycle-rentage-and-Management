@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -20,6 +21,10 @@ public class Bicycle {
     @NotNull(message = "Registration year cannot be empty")
     @Range(min = 2017, max = 2050)
     private Integer registrationYear;
+
+    @NotNull(message = "{notNull}")
+    @Min(value = 0, message = "Mileage cannot be empty")
+    private Integer mileage;
 
     @NotNull(message = "Production year cannot be empty")
     private Integer productionYear;
@@ -37,12 +42,13 @@ public class Bicycle {
     public Bicycle() {
     }
 
-    public Bicycle(Integer registrationNumber, Integer registrationYear,
+    public Bicycle(Integer registrationNumber, Integer registrationYear, Integer mileage,
                    Integer productionYear, String model, String producers, Park park) {
         this.registrationNumber = registrationNumber;
         this.registrationYear = registrationYear;
         this.productionYear = productionYear;
         this.model = model;
+        this.mileage=mileage;
         this.producers = producers;
         this.park = park;
     }
@@ -61,6 +67,14 @@ public class Bicycle {
 
     public void setRegistrationYear(Integer registrationYear) {
         this.registrationYear = registrationYear;
+    }
+
+    public Integer getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Integer mileage) {
+        this.mileage = mileage;
     }
 
     public Integer getProductionYear() {

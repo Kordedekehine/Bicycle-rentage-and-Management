@@ -33,6 +33,11 @@ public class AdminController {
          return rentageService.findRunningRentages();
      }
 
+    @GetMapping("mileage-greater-than/{mileage}")
+    public List<Bicycle> findByMileageGreaterThan(@PathVariable Integer mileage) {
+        return bicycleService.findByMileageGreaterThan(mileage);
+    }
+
      @PostMapping("add-bicycles")
      public ResponseEntity<Bicycle> addBicycle(@RequestBody @Valid Bicycle bicycle){ //Add Bicycle
         return ResponseEntity.created(URI.create("")).body(bicycleService.addBicycle(bicycle));
