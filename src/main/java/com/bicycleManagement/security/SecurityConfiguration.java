@@ -39,11 +39,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin")
-                .password("{noop}admin")
+                .password("admin")
                 .roles("ADMIN")
                 .and()
                 .withUser("emp")
-                .password("{noop}emp")
+                .password("emp")
                 .roles("EMPLOYEE");
     }
 
@@ -57,15 +57,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @throws Exception
      */
     @Override
-    protected void configure(final HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
         http.
                 httpBasic().
                 and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/employee/**").hasRole("EMPLOYEE")
+                .antMatchers("/admin/*","/admin/**","/admin/***","/admin/add-bicycle").permitAll()
+                .antMatchers("/employee/**").permitAll()
                 .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(this.successHandler)
                 .and()
@@ -73,7 +74,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/");
 
-        http.headers().frameOptions().disable(); // display h2 console correctly
+        http.headers().frameOptions().disable();
     }
 }
 

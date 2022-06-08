@@ -1,32 +1,17 @@
 package com.bicycleManagement.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-@Entity
-@Table(name = "customers")
-public class Customer {
+public class Users {
 
     @Id
-    @NotBlank(message = "Customer Number cannot be empty")
-    private Integer customerNumber;
-
-    @Size(min = 1, max = 255, message = "Name must not be too short or long")
-    @NotNull(message = "Name cannot be empty")
-    private String lastName;
-
-    @Size(min = 1, max = 255)
-    @NotNull(message = "Name cannot be empty")
-    private String firstName;
-
+    private String id;
     @Column
-    private String username;
-
+    private String firstName;
+    @Column
+    private String lastName;
     @Column
     private String phoneNumber;
     @Column
@@ -49,38 +34,12 @@ public class Customer {
     private String resetPasswordToken;
 
 
-    public Customer(Integer customerNumber, String lastName, String firstName, String username, String phoneNumber,
-                    String email, String password, Roles roles, List<Bicycle> vehicleList,
-                    Boolean locked, Boolean enabled, String validationToken, String resetPasswordToken) {
-        this.customerNumber = customerNumber;
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.username = username;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.vehicleList = vehicleList;
-        this.locked = locked;
-        this.enabled = enabled;
-        this.validationToken = validationToken;
-        this.resetPasswordToken = resetPasswordToken;
+    public String getId() {
+        return id;
     }
 
-    public Integer getCustomerNumber() {
-        return customerNumber;
-    }
-
-    public void setCustomerNumber(Integer customerNumber) {
-        this.customerNumber = customerNumber;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -91,12 +50,12 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
@@ -171,3 +130,5 @@ public class Customer {
         this.resetPasswordToken = resetPasswordToken;
     }
 }
+
+

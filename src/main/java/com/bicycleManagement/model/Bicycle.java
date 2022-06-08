@@ -2,7 +2,6 @@ package com.bicycleManagement.model;
 
 
 import org.hibernate.validator.constraints.Range;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -31,6 +30,7 @@ public class Bicycle {
 
     @NotBlank(message = "Model cannot be empty" )
     private String model;
+
 
     @NotBlank(message = "Producers  cannot be empty")
     private String producers;
