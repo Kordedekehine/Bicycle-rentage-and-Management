@@ -1,5 +1,7 @@
 package com.bicycleManagement.model;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,28 +9,38 @@ import javax.persistence.*;
 public class Role {
 
     @Id
+    @NaturalId
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private ERoles name;
+    @NaturalId
+    @Column(length = 60)
+    private RoleName name;
 
     public Role() {
+
     }
 
-    public Integer getId() {
+    public Role(RoleName name) {
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public ERoles getName() {
+    public RoleName getName() {
         return name;
     }
 
-    public void setName(ERoles name) {
+    public void setName(RoleName name) {
         this.name = name;
     }
 }
+
+

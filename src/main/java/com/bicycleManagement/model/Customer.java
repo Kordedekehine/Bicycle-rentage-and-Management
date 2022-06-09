@@ -2,9 +2,7 @@ package com.bicycleManagement.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,7 +42,7 @@ public class Customer {
     private String password;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn
-    private Set<ERoles> roles = new HashSet<>();
+    private Set<Role> role = new HashSet<>();
 
 
 
@@ -116,11 +114,11 @@ public class Customer {
         this.password = password;
     }
 
-    public Set<ERoles> getRoles() {
-        return roles;
+    public Set<Role> getRoles() {
+        return role;
     }
 
-    public void setRoles(Set<ERoles> roles) {
-        this.roles = roles;
+    public void setRoles(Set<Role> role) {
+        this.role = role;
     }
 }
