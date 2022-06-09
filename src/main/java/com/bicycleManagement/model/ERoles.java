@@ -1,5 +1,5 @@
 package com.bicycleManagement.model;
 
-public enum Roles {
+public enum ERoles {
     ROLE_ADMIN,ROLE_USER,ROLE_EMPLOYEE
 }

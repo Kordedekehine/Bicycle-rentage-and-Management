@@ -1,9 +1,11 @@
 package com.bicycleManagement.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+@Entity
 public class Employee {
 
     @Id
@@ -11,7 +13,7 @@ public class Employee {
     @Column
     private String email;
     @Enumerated
-    private Roles roles;
+    private ERoles roles;
     @Column
     private String password;
 
@@ -31,11 +33,11 @@ public class Employee {
         this.email = email;
     }
 
-    public Roles getRoles() {
+    public ERoles getRoles() {
         return roles;
     }
 
-    public void setRoles(Roles roles) {
+    public void setRoles(ERoles roles) {
         this.roles = roles;
     }
 

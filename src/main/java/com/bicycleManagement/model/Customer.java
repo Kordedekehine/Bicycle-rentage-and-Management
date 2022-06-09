@@ -1,20 +1,27 @@
 package com.bicycleManagement.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "customers", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 public class Customer {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotBlank(message = "Customer Number cannot be empty")
-    private Integer customerNumber;
+    private Long customerNumber;
 
     @Size(min = 1, max = 255, message = "Name must not be too short or long")
     @NotNull(message = "Name cannot be empty")
@@ -30,28 +37,19 @@ public class Customer {
     @Column
     private String phoneNumber;
     @Column
+    @Max(50)
+    @Email
     private String email;
     @Column
     private String password;
-    @Enumerated
-    private Roles roles;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn
-    private List<Bicycle> vehicleList=new ArrayList<>();
-    @Column
-    private Boolean locked=false;
-    @Column
-    private Boolean enabled=false;
-    @Column
-    private String validationToken;
-
-    @Column
-    private String resetPasswordToken;
+    private Set<ERoles> roles = new HashSet<>();
 
 
-    public Customer(Integer customerNumber, String lastName, String firstName, String username, String phoneNumber,
-                    String email, String password, Roles roles, List<Bicycle> vehicleList,
-                    Boolean locked, Boolean enabled, String validationToken, String resetPasswordToken) {
+
+    public Customer(Long customerNumber, String lastName, String firstName, String username, String phoneNumber,
+                    String email, String password) {
         this.customerNumber = customerNumber;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -59,19 +57,14 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.roles = roles;
-        this.vehicleList = vehicleList;
-        this.locked = locked;
-        this.enabled = enabled;
-        this.validationToken = validationToken;
-        this.resetPasswordToken = resetPasswordToken;
+
     }
 
-    public Integer getCustomerNumber() {
+    public Long getCustomerNumber() {
         return customerNumber;
     }
 
-    public void setCustomerNumber(Integer customerNumber) {
+    public void setCustomerNumber(Long customerNumber) {
         this.customerNumber = customerNumber;
     }
 
@@ -123,51 +116,11 @@ public class Customer {
         this.password = password;
     }
 
-    public Roles getRoles() {
+    public Set<ERoles> getRoles() {
         return roles;
     }
 
-    public void setRoles(Roles roles) {
+    public void setRoles(Set<ERoles> roles) {
         this.roles = roles;
-    }
-
-    public List<Bicycle> getVehicleList() {
-        return vehicleList;
-    }
-
-    public void setVehicleList(List<Bicycle> vehicleList) {
-        this.vehicleList = vehicleList;
-    }
-
-    public Boolean getLocked() {
-        return locked;
-    }
-
-    public void setLocked(Boolean locked) {
-        this.locked = locked;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getValidationToken() {
-        return validationToken;
-    }
-
-    public void setValidationToken(String validationToken) {
-        this.validationToken = validationToken;
-    }
-
-    public String getResetPasswordToken() {
-        return resetPasswordToken;
-    }
-
-    public void setResetPasswordToken(String resetPasswordToken) {
-        this.resetPasswordToken = resetPasswordToken;
     }
 }
