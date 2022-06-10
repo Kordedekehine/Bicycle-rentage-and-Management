@@ -2,7 +2,7 @@ package com.bicycleManagement.security;
 
 import com.bicycleManagement.security.jwt.AuthEntryPointJwt;
 import com.bicycleManagement.security.jwt.AuthTokenFilter;
-import com.bicycleManagement.security.service.UserDetailsServiceImpl;
+import com.bicycleManagement.security.servicesecurity.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -69,6 +69,14 @@ public class RentageFinishBean {
         this.id = id;
     }
 
+    public Customer getRider() {
+        return rider;
+    }
+
+    public void setRider(Customer rider) {
+        this.rider = rider;
+    }
+
     public LocalDate getRentalDate() {
         return rentalDate;
     }

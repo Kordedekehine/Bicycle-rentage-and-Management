@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 public class SignUpRequest {
   @Id
@@ -28,11 +29,37 @@ public class SignUpRequest {
     private String username;
 
    @NotBlank
+   @Size(min = 9,max = 11)
+   private String phoneNumber;
+
+   @NotBlank
    @Size(min = 6,max = 10)
     private String password;
 
+   private Set<String> role;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<String> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<String> role) {
+        this.role = role;
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public void setFirstName(String firstName) {

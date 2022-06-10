@@ -23,13 +23,13 @@ public class CustomerService {
      }
 
     public Customer saveCustomers(Customer customer){
-         if (customerRepository.existsById(customer.getCustomerNumber())){
+         if (customerRepository.existsById(customer.getId())){
            throw new EntityExistsException(messages.get("Customer already exists"));
          }
         return customerRepository.save(customer);
     }
 
-    private boolean existsById(Integer id){
+    private boolean existsById(Long id){
          return customerRepository.existsById(id);
     }
 }

@@ -1,10 +1,11 @@
 package com.bicycleManagement.repository;
 
+import com.bicycleManagement.model.Role;
 import com.bicycleManagement.model.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.management.relation.Role;
+
 import java.util.Optional;
 
 @Repository

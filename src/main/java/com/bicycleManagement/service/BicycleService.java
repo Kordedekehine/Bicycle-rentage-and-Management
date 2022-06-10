@@ -43,7 +43,7 @@ public class BicycleService {
         if (bicycle.getPark() == null) {
             throw new IllegalStateException(messages.get("Park cannot be null"));
         }
-        if (bicycle.getPark().getId() == null || parkService.existById(bicycle.getPark().getId())) {
+        if (bicycle.getPark().getId() == null || parkService.existById((bicycle.getPark().getId()))) {
             throw new EntityNotFoundException(messages.get("Park not found"));
         }
        if (bicycleRepository.existsById(bicycle.getRegistrationNumber())){
@@ -53,7 +53,7 @@ public class BicycleService {
     }
 
     public void deleteById(Integer registrationNumber){
-        Bicycle bicycle = bicycleRepository.findById(registrationNumber).
+        Bicycle bicycle = bicycleRepository.findById((registrationNumber)).
                 orElseThrow(() -> new EntityNotFoundException(messages.get("Car not found ")));
         if (!canDelete(bicycle)){
             throw new IllegalArgumentException(messages.get("Error! Cannot delete car"));

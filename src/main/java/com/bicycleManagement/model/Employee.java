@@ -9,19 +9,19 @@ import javax.persistence.Id;
 public class Employee {
 
     @Id
-    private String id;
+    private Long id;
     @Column
     private String email;
     @Enumerated
-    private ERoles roles;
+    private RoleName roles;
     @Column
     private String password;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -33,11 +33,11 @@ public class Employee {
         this.email = email;
     }
 
-    public ERoles getRoles() {
+    public RoleName getRoles() {
         return roles;
     }
 
-    public void setRoles(ERoles roles) {
+    public void setRoles(RoleName roles) {
         this.roles = roles;
     }
 

@@ -19,7 +19,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotBlank(message = "Customer Number cannot be empty")
-    private Long customerNumber;
+    private Long id;
 
     @Size(min = 1, max = 255, message = "Name must not be too short or long")
     @NotNull(message = "Name cannot be empty")
@@ -45,10 +45,12 @@ public class Customer {
     private Set<Role> role = new HashSet<>();
 
 
+    public Customer() {
+    }
 
-    public Customer(Long customerNumber, String lastName, String firstName, String username, String phoneNumber,
+    public Customer(Long id, String lastName, String firstName, String username, String phoneNumber,
                     String email, String password) {
-        this.customerNumber = customerNumber;
+        this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.username = username;
@@ -58,12 +60,20 @@ public class Customer {
 
     }
 
-    public Long getCustomerNumber() {
-        return customerNumber;
+    public Long getId() {
+        return id;
     }
 
-    public void setCustomerNumber(Long customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(Set<Role> role) {
+        this.role = role;
     }
 
     public String getLastName() {
