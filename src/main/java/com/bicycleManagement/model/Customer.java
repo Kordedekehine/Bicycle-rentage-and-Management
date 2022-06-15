@@ -4,6 +4,7 @@ import javax.management.relation.Role;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,9 +27,18 @@ public class Customer {
     private String username;
 
     @NotBlank
-    private String name;
+    private String firstname;
+
+    @NotBlank
+    private String lastname;
+
+    @NotBlank
+    private String phoneNumber;
+
     @Email
     private String email;
+
+
 
 
     private String password;
@@ -40,19 +50,38 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String username, String name, String email, String password) {
+    public Customer(String username, String firstname, String lastname, String phoneNumber, String email, String password) {
         this.username = username;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {

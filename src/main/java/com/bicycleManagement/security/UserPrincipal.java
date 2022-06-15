@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,12 @@ public class UserPrincipal implements UserDetails {
 
     private String username;
 
+    private String firstname;
+
+    private String lastname;
+
+    private String phoneNumber;
+
     @JsonIgnore
     private String email;
 
@@ -27,15 +34,19 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String email,
+    public UserPrincipal(Long id, String firstname, String lastname, String phoneNumber, String username, String email,
                          String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.name = name;
+        this.firstname = firstname;
+        this.phoneNumber = phoneNumber;
+        this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
+
+
 
     public static UserPrincipal create(Customer customer) {
         List<GrantedAuthority> authorities = customer.getRoles().stream().map(role ->
@@ -44,7 +55,9 @@ public class UserPrincipal implements UserDetails {
 
         return new UserPrincipal(
                 customer.getId(),
-                customer.getName(),
+                customer.getFirstname(),
+                customer.getLastname(),
+                customer.getPhoneNumber(),
                 customer.getUsername(),
                 customer.getEmail(),
                 customer.getPassword(),
@@ -56,13 +69,16 @@ public class UserPrincipal implements UserDetails {
         return id;
     }
 
+    public String getFirstname(){ return firstname;}
+
+    public String getLastname(){ return lastname;}
+
+    public String getPhoneNumber(){ return phoneNumber;}
     public String getEmail(){
         return email;
     }
 
-    public String getName(){
-        return name;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
