@@ -11,32 +11,40 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UserDetailsImpl implements UserDetails {
-
-    private static final Long serialVersionUID = 1L;
+public class UserPrincipal implements UserDetails {
 
     private Long id;
+
+    private String name;
+
     private String username;
+
+    @JsonIgnore
     private String email;
+
     @JsonIgnore
     private String password;
+
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
-                                  Collection<? extends GrantedAuthority> authorities) {
+    public UserPrincipal(Long id, String name, String username, String email,
+                         String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
+        this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(Customer customer){
-        List<GrantedAuthority> authorities = customer.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority (role.getName().name()))
-                .collect(Collectors.toList());
-        return new UserDetailsImpl(
+    public static UserPrincipal create(Customer customer) {
+        List<GrantedAuthority> authorities = customer.getRoles().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName().name())
+        ).collect(Collectors.toList());
+
+        return new UserPrincipal(
                 customer.getId(),
+                customer.getName(),
                 customer.getUsername(),
                 customer.getEmail(),
                 customer.getPassword(),
@@ -44,29 +52,31 @@ public class UserDetailsImpl implements UserDetails {
         );
     }
 
+    public Long getId(){
+        return id;
+    }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public String getName(){
+        return name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
-
-
-    public Long getId() {
-        return getId();
-    }
-
-    public String getEmail(){
-        return getEmail();
-    }
-
     @Override
     public String getPassword() {
-        return getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return getUsername();
+        return username;
     }
 
     @Override
@@ -90,10 +100,16 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserDetailsImpl customer = (UserDetailsImpl) o;
-        return Objects.equals(id, customer.id);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        UserPrincipal that = (UserPrincipal) obj;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 }

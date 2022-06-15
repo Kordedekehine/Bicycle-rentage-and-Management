@@ -6,32 +6,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Roles {
 
     @Id
-    @NaturalId
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
-    @Column(length = 60)
     private RoleName name;
 
-    public Role() {
-
+    public Roles() {
     }
 
-    public Role(RoleName name) {
+    public Roles(RoleName name) {
         this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public RoleName getName() {
@@ -42,5 +31,3 @@ public class Role {
         this.name = name;
     }
 }
-
-

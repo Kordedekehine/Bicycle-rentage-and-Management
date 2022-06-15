@@ -1,17 +1,15 @@
 package com.bicycleManagement.controller.rest;
 
-import ch.qos.logback.core.joran.action.IADataForComplexProperty;
+import com.bicycleManagement.exception.AppException;
 import com.bicycleManagement.model.Customer;
-import com.bicycleManagement.model.Role;
 import com.bicycleManagement.model.RoleName;
-import com.bicycleManagement.payload.ApiResponse;
-import com.bicycleManagement.payload.JwtResponse;
-import com.bicycleManagement.payload.LoginRequest;
+import com.bicycleManagement.model.Roles;
 import com.bicycleManagement.payload.SignUpRequest;
+import com.bicycleManagement.payload.LoginRequest;
+import com.bicycleManagement.payloads.responsePayload.*;
 import com.bicycleManagement.repository.CustomerRepository;
 import com.bicycleManagement.repository.RoleRepository;
-import com.bicycleManagement.security.UserDetailsImpl;
-import com.bicycleManagement.security.jwt.JwtUtils;
+import com.bicycleManagement.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +18,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.net.URI;
+import java.util.Collections;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -43,83 +42,57 @@ public class AuthController {
     RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    JwtTokenProvider tokenProvider;
+
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(),loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority()).collect(Collectors.toList());
-
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getPassword(),
-                 roles));
+        String jwt = tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (customerRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ResponseEntity(new ApiResponse(false, "Error: Username is already taken!"),
-                            HttpStatus.BAD_REQUEST));
+        if(customerRepository.existsByUsername(signUpRequest.getUsername())) {
+            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
+                    HttpStatus.BAD_REQUEST);
         }
-        if (customerRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new ResponseEntity(new ApiResponse(false, "Error: Email is already in use!"),
-                            HttpStatus.BAD_REQUEST));
-        }
-        //CUSTOMER HAVE TO CREATE A NEW CUSTOMER ACCOUNT
-        Customer customer = new Customer(
-                signUpRequest.getId(),
-                signUpRequest.getLastName(),
-                signUpRequest.getFirstName(),
-                signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                signUpRequest.getPhoneNumber(),
-                encoder.encode(signUpRequest.getPassword()));
 
-        Set<String> stringRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (stringRoles.isEmpty()) {
-            Role customerRole = roleRepository.findByName(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Role is not found"));
-            roles.add(customerRole);
-        } else {
-            stringRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Role is not found"));
-                        roles.add(adminRole);
-                        break;
-                    case "employee":
-                        Role empRole = roleRepository.findByName(RoleName.ROLE_EMPLOYEE)
-                                .orElseThrow(() -> new RuntimeException("Role is not found"));
-                        roles.add(empRole);
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
+        if(customerRepository.existsByEmail(signUpRequest.getEmail())) {
+            return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
+                    HttpStatus.BAD_REQUEST);
         }
-            customer.setRoles(roles);
-            customerRepository.save(customer);
-            return ResponseEntity.ok(new ApiResponse(true, "Customer successfully saved"));
+
+        // Creating user's account
+        Customer customer = new Customer(signUpRequest.getName(), signUpRequest.getUsername(),
+                signUpRequest.getEmail(), signUpRequest.getPassword());
+
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+
+        Roles customerRole = roleRepository.findByName(RoleName.ROLE_USER)
+                .orElseThrow(() -> new AppException("User Role not set."));
+
+        customer.setRoles(Collections.singleton(customerRole));
+
+        Customer result = customerRepository.save(customer);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/customers/{username}")
+                .buildAndExpand(result.getUsername()).toUri();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
-
 }

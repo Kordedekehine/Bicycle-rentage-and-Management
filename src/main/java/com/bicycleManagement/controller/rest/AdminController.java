@@ -5,7 +5,6 @@ import com.bicycleManagement.model.Customer;
 import com.bicycleManagement.model.Rentage;
 import com.bicycleManagement.service.BicycleService;
 import com.bicycleManagement.service.CustomerService;
-import com.bicycleManagement.service.ParkService;
 import com.bicycleManagement.service.RentageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,8 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping("/admin")
+public class  AdminController {
 
     @Autowired
     private BicycleService bicycleService;
@@ -50,6 +49,7 @@ public class AdminController {
 
      @DeleteMapping("delete-bicycle{registrationNumber}")
     public void deleteCar(@PathVariable Integer registrationNumber){
+
         bicycleService.deleteById(registrationNumber);
      }
 

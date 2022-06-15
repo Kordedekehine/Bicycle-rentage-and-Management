@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("employee")
+@RequestMapping("/employee")
 @SessionAttributes({"RentageFinishBean"})
 public class EmployeeController {
 

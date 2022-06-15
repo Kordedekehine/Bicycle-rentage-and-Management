@@ -1,6 +1,7 @@
-package com.bicycleManagement.payload;
+package com.bicycleManagement.payloads.responsePayload;
 
 public class ApiResponse {
+
     private Boolean success;
     private String message;
 

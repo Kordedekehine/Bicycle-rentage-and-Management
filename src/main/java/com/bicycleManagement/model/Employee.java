@@ -10,11 +10,11 @@ public class Employee {
 
     @Id
     private Long id;
-    @Column
+
     private String email;
     @Enumerated
     private RoleName roles;
-    @Column
+
     private String password;
 
     public Long getId() {
